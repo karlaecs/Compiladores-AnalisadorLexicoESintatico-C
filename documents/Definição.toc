@@ -1,0 +1,6 @@
+\select@language {brazilian}
+\contentsline {section}{\numberline {1}Analisador L\IeC {\'e}xico}{2}
+\contentsline {subsection}{\numberline {1.1}AnalisadorLexico.h}{2}
+\contentsline {subsection}{\numberline {1.2}AnalisadorLexico.c}{3}
+\contentsline {subsection}{\numberline {1.3}main.c}{12}
+\contentsline {section}{\numberline {2}Algoritmos}{13}

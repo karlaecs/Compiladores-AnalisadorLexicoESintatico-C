@@ -1,0 +1,158 @@
+\documentclass{article}
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[hmargin=1.5cm,vmargin=3.5cm,bmargin=2cm]{geometry}
+\author{Roland dos Santos Gonçalves Sobrinho}
+\usepackage{graphicx}
+\usepackage{listings}
+
+
+
+
+\begin{document}
+
+% ---------------    CAPA ---------------
+
+
+\begin{titlepage}
+\vfill
+\begin{center}
+{\large Universidade Federal de Alagoas - UFAL}\\
+{\large Instituto de Computação - IC}\\[5cm]
+{\large Karla Elisabeth Cristo dos Santos}\\
+{\large Roland dos Santos Gonçalves Sobrinho} \\[5cm]
+{\Huge Analisador Léxico}\\[1cm]
+\hspace{.45\textwidth} % posicionando a minipage
+\vfill
+11 de Novembro de 2013
+\end{center}
+\end{titlepage}
+
+
+% ---------------    FOLHA DE ROSTO ---------------
+
+\begin{titlepage}
+\vfill
+\begin{center}
+{\large Universidade Federal de Alagoas - UFAL}\\
+{\large Instituto de Computação - IC}\\[5cm]
+{\large Karla Elisabeth Cristo dos Santos}\\
+{\large Roland dos Santos Gonçalves Sobrinho} \\[5cm]
+{\Huge Analisador Léxico}\\[1cm]
+\hspace{.45\textwidth} % posicionando a minipage
+\begin{minipage}{.5\textwidth}
+Trabalho Acadêmico solicitado pelo Prof. Alcino Dall Igna Júnior, com vistas à obtenção parcial de nota da disciplina Compiladores do Curso de Bacharel em Ciência da Computação — UFAL
+
+\end{minipage}
+\vfill
+11 de Novembro de 2013
+\end{center}
+\end{titlepage}
+
+% ---------------    SUMARIO ---------------
+
+\tableofcontents
+\newpage
+
+% ---------------   INTRODUCAO ---------------
+
+
+
+
+\section{Analisador Léxico}\label{Analisador Lexico}
+
+	O analisador Léxico foi escrito na linguagem C.
+	
+\subsection{AnalisadorLexico.h}
+
+\lstinputlisting{AnalisadorLexico.h}
+
+
+	
+\newpage
+
+\subsection{AnalisadorLexico.c}
+
+\lstinputlisting{AnalisadorLexico.c}
+
+\newpage
+
+\subsection{main.c}
+
+\lstinputlisting{main.c}
+	
+\newpage	
+	
+\section{Algoritmos}
+Segue alguns exemplos de algoritmos na linguagem após serem feitas as análises.
+
+Alo Mundo!
+
+\begin{verbatim}
+
+main()
+{
+	output("Hello World");
+}
+
+
+\end{verbatim}
+
+\lstinputlisting{helloworld.out}
+
+\newpage
+Serie de Fibonacci iterativa
+\begin{verbatim}
+
+
+function fibonacci(int n)
+{
+     int i = 0;
+     int j = 1;
+     int k;
+     for(k = 1; k < n; k = k + 1){
+             output(i);
+             int t = i + j;
+             i = j;
+             j = t;
+     }
+     return j;
+}
+
+
+\end{verbatim}
+
+\lstinputlisting{fibonacci.out}
+
+\newpage
+
+ShellSort
+
+\begin{verbatim}
+
+function shellsort(int vet[], int size) {
+    int i , j , value;
+    int gap = 1;
+    while(gap < size) {
+        gap = 3*gap+1;
+    }
+    while ( gap > 1) {
+        gap = gap/3;
+        for(i = gap; i < size; i = i + 1) {
+            value = vet[i];
+            j = i - gap;
+            while (j >= 0 and value < vet[j]) {
+                vet [j + gap] = vet[j];
+                j = j - gap;
+            }
+            vet [j + gap] = value;
+        }
+    }
+}
+
+\end{verbatim}
+
+\lstinputlisting{shellsort.out}
+
+\end{document}
