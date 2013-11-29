@@ -1,0 +1,11 @@
+all: lexico
+lexico: main.o AnalisadorLexico.o sintatico.o arvoregen.o
+	gcc -o bin/lexico obj/main.o obj/AnalisadorLexico.o obj/sintatico.o obj/arvoregen.o
+main.o: main.c
+	gcc -o obj/main.o -c main.c
+AnalisadorLexico.o: ../Analisador_Léxico/AnalisadorLexico.c ../Analisador_Léxico/AnalisadorLexico.h
+	gcc -o obj/AnalisadorLexico.o -c ../Analisador_Léxico/AnalisadorLexico.c
+sintatico.o: sintatico.c sintatico.h 
+	gcc -o obj/sintatico.o -c sintatico.c obj/arvoregen.o
+arvoregen.o: arvoregen.c arvoregen.h
+	gcc -o obj/arvoregen.o -c arvoregen.c

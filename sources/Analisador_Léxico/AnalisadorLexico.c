@@ -11,56 +11,8 @@ size_t numero_bytes=100;
 int bytes_lidos=0, linha1=0, coluna1=0, i=0, j=0, primeiro=0, comentario = 0, coluna2 = 0;
 char *linha_do_arquivo;
 
+
 // Enumeracao das Categorias.
-
-enum categoria{
-
-    tk_rel_op = 256,
-    tk_id = 257,
-    tk_const_int = 258,
-    tk_const_float =259,
-    tk_const_lit = 260,
-    tk_kw_int = 261,
-    tk_kw_float = 262,
-    tk_kw_char = 263,
-    tk_kw_if = 264,
-    tk_kw_else = 265,
-    tk_kw_for = 266,
-    tk_kw_while = 267,
-    tk_kw_break = 268,
-    tk_kw_not = 269,
-    tk_kw_and = 270,
-    tk_kw_or = 271,
-    tk_kw_main = 272,
-    tk_kw_func = 273,
-    tk_kw_return = 274,
-    tk_kw_strcmp = 275,
-    tk_kw_strcop = 276,
-    tk_kw_input = 277,
-    tk_kw_output = 278,
-    tk_op_add = 279,
-    tk_op_sub = 280,
-    tk_op_mul = 281,
-    tk_op_div = 282,
-    tk_op_atrib = 283,
-    tk_open_par = 284,
-    tk_close_par = 285,
-    tk_open_bra = 286,
-    tk_close_bra = 287,
-    tk_close_key = 288,
-    tk_open_key = 289,
-    tk_semicolon = 290,
-    tk_comma = 291,
-    erro  = 292
-};
-
-
-struct token{
-    char *valor;
-    Categoria categoria;
-    int linha;
-    int coluna;
-};
 
 
 // Funcao utilizada para imprimir token
@@ -75,7 +27,7 @@ void imprimir_token(Token *token){
 //Vetor de ponteiro para funcoes
 
 Token* (*func[128])() = {
-    &proximo_token, &proximo_token, &proximo_token, 
+    &proximo_token, &proximo_token, &proximo_token,
     &proximo_token, &proximo_token, &proximo_token,//0 - 5
     &proximo_token, &proximo_token, &proximo_token, &proximo_token, &proximo_token, //6-10
     &proximo_token, &proximo_token, &proximo_token, &proximo_token, &proximo_token, //11 - 15
@@ -87,25 +39,25 @@ Token* (*func[128])() = {
     &indefinidos, &indefinidos, &indefinidos, &indefinidos, &delimitador, // 36 - 40
     &delimitador, &operador_aritmetico, &operador_aritmetico,
     &delimitador, &operador_aritmetico, // 41 - 45
-    &indefinidos, &operador_aritmetico, &constante_numerica, 
+    &indefinidos, &operador_aritmetico, &constante_numerica,
     &constante_numerica, &constante_numerica, // 46 - 50
-    &constante_numerica, &constante_numerica, &constante_numerica, 
+    &constante_numerica, &constante_numerica, &constante_numerica,
     &constante_numerica, &constante_numerica, // 51 - 55
-    &constante_numerica, &constante_numerica,  &indefinidos, 
+    &constante_numerica, &constante_numerica,  &indefinidos,
     &delimitador, &operador_relacional, // 56 - 60
-    &operador_relacional, &operador_relacional, 
+    &operador_relacional, &operador_relacional,
     &delimitador, &indefinidos, &palavra, // 61 - 65
-    &palavra, &palavra, &palavra, &palavra, &palavra, 
+    &palavra, &palavra, &palavra, &palavra, &palavra,
     &palavra, &palavra, &palavra, &palavra, &palavra, // 66 - 75
     &palavra, &palavra, &palavra, &palavra, &palavra,&palavra, &palavra,
     &palavra, &palavra, &palavra, // 76 - 85
     &palavra, &palavra, &palavra, &palavra, &palavra, // 86 - 90
     &delimitador, &indefinidos, &delimitador, &indefinidos, &indefinidos, // 91 - 95
-    &indefinidos, &palavra, &palavra, &palavra, &palavra, 
+    &indefinidos, &palavra, &palavra, &palavra, &palavra,
     &palavra, &palavra, &palavra, &palavra, &palavra, // 96 - 105
-    &palavra, &palavra, &palavra, &palavra, &palavra, &palavra, 
+    &palavra, &palavra, &palavra, &palavra, &palavra, &palavra,
     &palavra, &palavra, &palavra, &palavra, // 106 - 115
-    &palavra, &palavra, &palavra, &palavra, &palavra, &palavra, 
+    &palavra, &palavra, &palavra, &palavra, &palavra, &palavra,
     &palavra, &delimitador, &indefinidos, &delimitador, // 116 - 125
     &indefinidos, &indefinidos // 126 e 127
 };
@@ -383,7 +335,7 @@ Token* constante_literal(){
     Token *token = (Token *)malloc(sizeof(Token));
     token->linha = linha1;
     token->coluna = ++coluna1;
-    token->categoria = tk_const_lit; 
+    token->categoria = tk_const_lit;
     i++;
 
     while(1){
@@ -408,7 +360,7 @@ Token* constante_literal(){
     return token;
 }
 
-//Funcao para elimnar comentarios, 
+//Funcao para elimnar comentarios,
 //tudo que esta entre os delimitadores de comentarios sera desconsiderado
 
 void eliminar_comentario(){
