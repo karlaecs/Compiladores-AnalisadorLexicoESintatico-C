@@ -1,0 +1,20 @@
+%Author: Anthony Bloesch
+%Title: test1.tex
+%
+%Copyright (C) Anthony Bloesch 1993
+
+\documentstyle[treetex]{article}
+
+\begin{document}
+\begin{center}
+\begin{tree}{testtreea}
+  \rootnode{root node}
+  \treenode{nodeA}{root}{left root child}
+  \treenode{nodeC}{nodeB}{\epsilon}
+  \treenode{nodeB}{root}{right root child}
+  
+\end{tree}
+\end{center}
+\end{document}
+
+

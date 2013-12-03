@@ -6,7 +6,7 @@
 int main(int argc, char *argv[]){
 
     iniciar(argc, argv);
-    analisadorSintatico();
+    analisador_sintatico();
     encerrar();
     return 0;
 }

@@ -1,0 +1,65 @@
+Em nao_terminais :                                    
+0 corpo
+1 program
+2 termo_program
+3 list_func
+4 list_param
+5 param
+6 cmd
+7 var_dec
+8 termo_var_dec
+9 type
+10 cond
+11 termo_cond
+12 fator_cond
+13 iter
+14 atrib
+15 exp_bool
+16 termo_bool
+17 fator_bool
+18 exp_rel
+19 exp_arit
+20 termo_arit
+21 fator_arit
+22 A
+23 B
+24 C
+25 D
+
+
+Em terminais :
+0 main
+1 {
+2 }
+3 function
+4 id
+5 (
+6 )
+7 return 
+8 ,
+9 int
+10 float
+11 char
+12 [
+13 ]
+14 ;
+15 if
+16 else
+17 for
+18 while
+19 =
+20 or
+21 and
+22 not
+23 +
+24 -
+25 *
+26 /
+27 -un
+28 cte_lit
+29 vazio
+30 cte_int
+31 cte_float
+32 tipo
+
+

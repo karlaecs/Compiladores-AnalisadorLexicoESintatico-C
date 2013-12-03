@@ -6,10 +6,10 @@ int main(int argc, char *argv[]){
 
     iniciar(argc, argv);
     Token *token = proximo_token();
-    while(token != NULL){
+    /*while(token != NULL){
         imprimir_token(token);
         token = proximo_token();
-    }
+    }*/
     encerrar();
     return 0;
 }

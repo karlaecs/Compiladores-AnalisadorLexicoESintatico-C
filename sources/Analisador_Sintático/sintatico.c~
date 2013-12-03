@@ -1,6 +1,5 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include<string.h>
 #include "sintatico.h"
 #include "../Analisador_Léxico/AnalisadorLexico.h"
 #define INTMAX 35
@@ -14,71 +13,67 @@ int terminais[INTMAX];
 A chamada para a principal função, a partir dela uma variavel global token que é auxiliar, será alocada e ficará
 recebendo os tokens analisados pelo Lexico,eles serão atualizados conforme o sintatico for solicitando.
 */
-void analisador_sintatico() {
-
+void analisadorSintatico() {
+    nao_terminais[INTMAX] = {0};
+    terminais[INTMAX];
     arq = fopen("../tree_tex/arvore.tex", "w");
-    if(arq == NULL) {
-        puts("Falha ao abrir arvore.tex");
-    }
-    memset(nao_terminais, 0, sizeof(nao_terminais));
-    memset(terminais, 0, sizeof(terminais));
+    if(arq == NULL)
+	puts("Falha ao abrir arvore.tex");
     iniciar_tex();
     token = (Token*) malloc(sizeof(Token));
     token = proximo_token();
     programa();
-    fim_tex();
+    encerrartex();
     fclose(arq);
 
 }
 
 void iniciar_tex() {
-    fprintf(arq,"\\documentstyle[treetex]{article}\n");
-    fprintf(arq,"\\begin{document}\n");
-    fprintf(arq,"\\begin{center}\n");
-    fprintf(arq,"\\begin{tree}{arvore}\n");
+    fprintf(arq,"%s","\documentstyle[treetex]{article}"); 
+    fprintf(arq,"%s", "\begin{document}"); 
+    fprintf(arq,"%s", "\begin{center}"); 
+    fprintf(arq,"%s", "\begin{tree}{arvoreDeDerivaçao}"); 
 }
 
-void fim_tex() {
-    fprintf(arq,"\\end{tree}\n");
-    fprintf(arq,"\\end{center}\n");
-    fprintf(arq,"\\end{document}\n");
+void encerrartex() {
+    fprintf(arq,"%s", "\end{tree}"); 
+    fprintf(arq,"%s", "\end{center}"); 
+    fprintf(arq,"%s", "\end{document}"); 
 }
 
 int corpo() {
-    if(token != NULL) {
+    if(token != NULL) { 
         if(token->categoria == tk_open_key) {
-            fprintf(arq,"\\treenode{%dopenkey}{%dcorpo}{\\{}\n", terminais[1]++, nao_terminais[0]);
+	    fprintf(arq,"treenode{open_key%d}{corpo%d}{{}", terminais[1]++, nao_terminais[0]); 
             token = proximo_token();
-            fprintf(arq,"\\treenode{%dcmd}{%dcorpo}{cmd}\n", nao_terminais[6], nao_terminais[0]);
+            fprintf(arq,"treenode{cmd%d}{corpo%d}{cmd}", terminais[1]++, nao_terminais[0]);
             if(cmd()) {
-                nao_terminais[6]++;
                 if(token->categoria == tk_close_key) {
-                    fprintf(arq,"\\treenode{%dclosekey}{%dcorpo}{\\}}\n", terminais[2]++, nao_terminais[0]);
+	            fprintf(arq,"treenode{close_key%d}{corpo%d}{}}", terminais[2]++, nao_terminais[0]++); 	
                     token = proximo_token();
                     return 1;
                 }
                 puts("ERRO FALTA }");
-                return 0;
+                exit(EXIT_FAILURE);
             }
-            return 0;
+            exit(EXIT_FAILURE);
         }
         puts("ERRO FALTA {");
-        return 0;
+        exit(EXIT_FAILURE);
     }
-    return 0;
+    exit(EXIT_FAILURE);
 }
 
 
 int programa() {
-    fprintf(arq,"\\rootnode{Programa}\n");
+    fprintf(arq,"\rootnode{Programa}"); 
+    fprintf(arq,"\treenode{termo_program}{Programa}{termo_program}"); 
     if(termo_program()) {
-        fprintf(arq,"\\treenode{termoprogram}{root}{termo program}\n");
         if(token->categoria == tk_kw_main) {
-	     fprintf(arq,"\\treenode{main}{root}{main}\n");
+	     fprintf(arq,"\treenode{main}{Programa}{main}"); 
              token = proximo_token();
-             if(corpo()) {
-                fprintf(arq,"\\treenode{%dcorpo}{root}{corpo}\n", nao_terminais[0]);
-                nao_terminais[0]++;
+             fprintf(arq,"\treenode{corpo%d}{Programa}{corpo}", nao_terminais[0]++);
+             if(corpo()) {	
                 puts("Executado com Sucesso!");
                 return 1;
              }
@@ -91,96 +86,96 @@ int programa() {
 
 
 int termo_program() {
-
-    if(list_func()) {
-        fprintf(arq,"\\treenode{%dlistfunc}{termoprogram}{list func}\n", nao_terminais[3]);
-        nao_terminais[3]++;
+    fprintf(arq,"\treenode{list_func%d}{termo_program}{list_func}", nao_terminais[3]++); 
+    if(list_func()) {	
         return 1;
-    }
-    fprintf(arq,"\\treenode{%dvazio}{termoprogram}{vazio}\n", terminais[29]++);
-    //pensar como tratar esse erro dele escrever as duas producoes
+    }   
+    fprintf(arq,"\treenode{vazio}{termo_program}{Vazio}", terminais[29]++);    
+    //pensar como tratar esse erro dele escrever as duas producoes 
     return 1;
 }
 
 int list_func() {
-    if(token != NULL) {
-        if(token->categoria == tk_kw_func) {
-            fprintf(arq,"\\treenode{%dfunc}{%dlistfunc}{function}\n", terminais[3]++, nao_terminais[3]);
-            token = proximo_token();
-            if(token->categoria == tk_id) {
-                fprintf(arq,"\\treenode{%did}{%dlistfunc}{id}\n", terminais[4]++, nao_terminais[3]);
+        if(token != NULL){
+            if(token->categoria == tk_kw_func) {
+                fprintf(arq,"\treenode{func%d}{list_func%d}{function}", terminais[3]++, nao_terminais[3]);  
                 token = proximo_token();
-                if(token->categoria == tk_open_par) {
-                    fprintf(arq,"\\treenode{%dopenpar}{%dlistfunc}{\\(}\n", terminais[5]++, nao_terminais[3]);
+                if(token->categoria == tk_id) {
+                    fprintf(arq,"\treenode{id%d}{list_func%d}{id}", terminais[4]++, nao_terminais[3]);  
                     token = proximo_token();
-                    if(list_param()) {
-                        fprintf(arq,"\\treenode{%dlistparam}{%dlistfunc}{list param}\n", nao_terminais[4]++, nao_terminais[3]);
-                        if(token->categoria == tk_close_par) {
-                            fprintf(arq,"\\treenode{%dclosepar}{%dlistfunc}{\\)}\n", terminais[6]++, nao_terminais[3]);
-                            token = proximo_token();
-                            if(token->categoria == tk_open_key) {
-                                fprintf(arq,"\\treenode{%dopenkey}{%dlistfunc}{\\{}\n", terminais[1]++, nao_terminais[3]);
+                    if(token->categoria == tk_open_par) {
+		        fprintf(arq,"\treenode{open_par%d}{list_func%d}{(}", terminais[5]++, nao_terminais[3]);  
+                        token = proximo_token();
+ 			fprintf(arq,"\treenode{list_param%d}{list_func%d}{list_param}", nao_terminais[4]++, nao_terminais[3]);
+                        if(list_param()) {
+                            if(token->categoria == tk_close_par) {
+ 				fprintf(arq,"\treenode{close_par%d}{list_func%d}{)}", terminais[6]++, nao_terminais[3]);  
                                 token = proximo_token();
-                                if(cmd()){
-                                    fprintf(arq,"\\treenode{%dcmd}{%dlistfunc}{cmd}", nao_terminais[6]++, nao_terminais[3]);
-                                    if(token->categoria == tk_kw_return) {
-                                        fprintf(arq,"\\treenode{%dreturn}{%dlistfunc}{return}\n", terminais[7]++, nao_terminais[3]);
-                                        token = proximo_token();
-                                        if(exp_bool()) {
-                                            fprintf(arq,"\\treenode{%dexpbool}{%dlistfunc}{exp bool}\n", nao_terminais[15]++, nao_terminais[3]);
-                                            if(token->categoria == tk_semicolon) {
-                                                fprintf(arq,"\\treenode{%dsemicolon}{%dlistfunc}{;}\n", terminais[14]++, nao_terminais[3]);
-                                                token = proximo_token();
-                                                if(token->categoria == tk_close_key) {
-                                                    fprintf(arq,"\\treenode{%dclosekey}{%dlistfunc}{\\}}\n", terminais[2]++, nao_terminais[3]);
+                                if(token->categoria == tk_open_key) {
+				    fprintf(arq,"\treenode{open_key%d}{list_func%d}{{}", terminais[1]++, nao_terminais[3]); 
+                                    token = proximo_token();
+ 				    fprintf(arq,"\treenode{cmd%d}{list_func%d}{cmd}", nao_terminais[6]++, nao_terminais[3]); 
+                                    if(cmd()){
+                                        if(token->categoria == tk_kw_return) {
+  					    fprintf(arq,"\treenode{return%d}{list_func%d}{return}", terminais[7]++, nao_terminais[3]); 
+                                            token = proximo_token();
+		   			    fprintf(arq,"\treenode{exp_bool%d}{list_func%d}{exp_bool}", nao_terminais[15]++, nao_terminais[3]); 
+                                            if(exp_bool()) {
+                                                if(token->categoria == tk_semicolon) {
+			 			    fprintf(arq,"\treenode{semicolon%d}{list_func%d}{;}", terminais[14]++, nao_terminais[3]);
                                                     token = proximo_token();
-                                                    if(list_func()){
-                                                        fprintf(arq,"\\treenode{%dlistfunc}{%dlistfunc}{list func}\n", nao_terminais[3]+1, nao_terminais[3]);
-                                                        nao_terminais[3]++;
-                                                        return 1;
+                                                    if(token->categoria == tk_close_key) {
+							fprintf(arq,"\treenode{close_key%d}{list_func%d}{}}", terminais[2]++, nao_terminais[3]);
+                                                        token = proximo_token();
+							fprintf(arq,"\treenode{list_func%d}{list_func%d}{list_func}", nao_terminais[3]+1, nao_terminais[3]);
+                                                        if(list_func()){
+ 							    nao_terminais[3]++;
+                                                            return 1;
+                                                        }
+                                                        exit(EXIT_FAILURE);
                                                     }
-                                                    return 0;
+                                                    puts("ERRO - Falta }");
+                                                    exit(EXIT_FAILURE);
                                                 }
-                                                puts("ERRO - Falta }");
-                                                return 0;
+                                                puts("ERRO - Falta ;3");
+                                                exit(EXIT_FAILURE);
                                             }
-                                            puts("ERRO - Falta ;3");
-                                            return 0;
+                                            exit(EXIT_FAILURE);
                                         }
-                                        return 0;
+                                        exit(EXIT_FAILURE);
                                     }
-                                    return 0;
+                                    exit(EXIT_FAILURE);
                                 }
-                                return 0;
+                                puts("ERRO - Falta {");
+                                exit(EXIT_FAILURE);
                             }
-                            puts("ERRO - Falta {");
-                            return 0;
+                            puts("ERRO - Falta )");
+                            exit(EXIT_FAILURE);
                         }
-                        puts("ERRO - Falta )");
-                        return 0;
+                        exit(EXIT_FAILURE);
                     }
-                    return 0;
+                    puts("ERRO - Falta (");
+                    exit(EXIT_FAILURE);
                 }
-                puts("ERRO - Falta (");
-                return 0;
+                exit(EXIT_FAILURE);
             }
-            return 0;
+            fprintf(arq,"\treenode{vazio%d}{list_func%d}{vazio}", terminais[29]++, nao_terminais[3]++);
+	    return 1;
         }
-        fprintf(arq,"\\treenode{%dvazio}{%dlistfunc}{vazio}\n", terminais[29]++, nao_terminais[3]);
-        return 1;
-    }
+	exit(EXIT_FAILURE);
+        
 }
 
 
 int list_param() {
+    fprintf(arq,"\treenode{type%d}{list_param%d}{type}", nao_terminais[9]++, nao_terminais[4]);
     if(type()) {
-        fprintf(arq,"\\treenode{%dtype}{%dlistparam}{type}\n", nao_terminais[9]++, nao_terminais[4]);
         if(token->categoria == tk_id) {
-            fprintf(arq,"\\treenode{%did}{%dlistparam}{id}\n", terminais[4]++, nao_terminais[4]);
+ 	    fprintf(arq,"\treenode{id%d}{list_param%d}{id}", terminais[4]++, nao_terminais[4]);
             token = proximo_token();
+	    fprintf(arq,"\treenode{param%d}{list_param%d}{param}", nao_terminais[5]++, nao_terminais[4]);
             if(param()) {
-                fprintf(arq,"\\treenode{%dparam}{%dlistparam}{param}\n", nao_terminais[5]++, nao_terminais[4]);
-                nao_terminais[4]++;
+		nao_terminais[4]++;
                 return 1;
             }
             exit(EXIT_FAILURE);
@@ -194,120 +189,112 @@ int list_param() {
 int param() {
     if(token != NULL){
         if(token->categoria == tk_comma) {
-            fprintf(arq,"\\treenode{%dcomma}{%dparam}{\\,}\n", terminais[8]++, nao_terminais[5]);
+	    fprintf(arq,"\treenode{comma%d}{param%d}{,}", terminais[8]++, nao_terminais[5]);
             token = proximo_token();
-
+	    fprintf(arq,"\treenode{list_param%d}{param%d}{list_param}", nao_terminais[4]++, nao_terminais[5]);
             if(list_param()) {
-                fprintf(arq,"\\treenode{%dlistparam}{%dparam}{list param}\n", nao_terminais[4]++, nao_terminais[5]);
-                nao_terminais[5]++;
+		nao_terminais[5]++;
                 return 1;
             }
             exit(EXIT_FAILURE);
         }
 	exit(EXIT_FAILURE);
     }
-    fprintf(arq,"\\treenode{%dvazio}{%dparam}{vazio}\n", terminais[29]++, nao_terminais[5]);
-    return 1;
+    fprintf(arq,"\treenode{vazio%d}{param%d}{vazio}", terminais[29]++, nao_terminais[5]++);
 }
 
 
 int cmd() {
-    if(var_dec()) {
-        fprintf(arq,"\\treenode{%dvardec}{%dcmd}{var dec}\n", nao_terminais[4]++, nao_terminais[6]);
+   fprintf(arq,"\treenode{var_dec%d}{cmd%d}{var_dec}", nao_terminais[4]++, nao_terminais[6]);
+   if(var_dec()) {	
+	fprintf(arq,"\treenode{cmd%d}{cmd%d}{cmd}", nao_terminais[6]+1, nao_terminais[6]);
         if(cmd()) {
-            fprintf(arq,"\\treenode{%dcmd}{%dcmd}{cmd}\n", nao_terminais[6]+1, nao_terminais[6]);
-            nao_terminais[6]++;
+	    nao_terminais[6]++;
             return 1;
-        }
-        return 0;
+	}
+        exit(EXIT_FAILURE);
     }
 
-    else if(cond()) {
-        if(cmd()) {
+        else if(cond()) {
+        if(cmd())
             return 1;
-        }
-        exit(EXIT_FAILURE);
+        return 0;
     }
-    else if(iter()) {
-        if(cmd()) {
+        else if(iter()) {
+        if(cmd())
             return 1;
-        }
-        exit(EXIT_FAILURE);
+        return 0;
     }
-    else if(atrib()) {
+        else if(atrib()){
         if(token->categoria == tk_semicolon) {
             token = proximo_token();
-            if(cmd()) {
+            if(cmd())
                 return 1;
-            }
-            exit(EXIT_FAILURE);
+            return 0;
         }
         puts("ERRO - FALTA ;");
         exit(EXIT_FAILURE);
     }
-    /*else if(ch_func()) {
-        if(cmd()) {
+        else if(ch_func()) {
+        if(cmd())
             return 1;
-        }
-        exit(EXIT_FAILURE);
-    }*/
-    fprintf(arq,"\\treenode{%dvazio}{%dcmd}{vazio}\n", terminais[29]++, nao_terminais[6]);
-    return 1;
+        return 0;
+    }
+    return 2;
 }
 
 /*
 int ch_func() {
-if(saida())
-return 1;
-else if(entrada())
-return 1;
-else if(concaternar())
-return 1;
-return 0;
+    if(saida())
+        return 1;
+    else if(entrada())
+        return 1;
+    else if(concaternar())
+        return 1;
+    return 0;
 }
 
 int saida() {
-if(token->categoria == tk_kw_output) {
-token = proximo_token();
-if(token->categoria == tk_open_par) {
-token = proximo_token();
-if(token->categoria == tk_const_lit) {
-token = proximo_token();
-return 1;
-}
-else if(types())
-return 1;
-return 0;
-}
-return 0;
-}
-return 0;
-}*/
-
-// contador6
-int var_dec()
-{
-    if(type()) {
-        fprintf(arq,"\\treenode{%dtype}{%dvardec}{type}\n", nao_terminais[9], nao_terminais[7]);
-        if(token->categoria == tk_id) {
-            fprintf(arq,"\\treenode{%did}{%dvardec}{id}\n", terminais[4]++, nao_terminais[7]);
+    if(token->categoria == tk_kw_output) {
+        token = proximo_token();
+        if(token->categoria == tk_open_par) {
             token = proximo_token();
-            if(termo_var_dec()) {
-                fprintf(arq,"\\treenode{%dtermovardec}{%dvardec}{termo var dec}\n", nao_terminais[8], nao_terminais[7]);
-                if(token->categoria == tk_semicolon) {
-                    fprintf(arq,"\\treenode{%dsemicolon}{%dvardec}{\\;}\n", terminais[14]++, nao_terminais[7]);
-                    token = proximo_token();
-                    nao_terminais[7]++;
-                    return 1;
-                }
-                puts("ERRO FALTA ;");
-                return 0;
+            if(token->categoria == tk_const_lit) {
+                token = proximo_token();
+                return 1;
             }
+            else if(types())
+                return 1;
             return 0;
         }
         return 0;
     }
     return 0;
+}*/
+
+// contador6
+int var_dec()
+{
+    fprintf(arq,"\treenode{type%d}{var_dec%d}{type}", nao_terminais[9]++, nao_terminais[7]);
+    if(type()) {
+        if(token->categoria == tk_id) {
+	    fprintf(arq,"\treenode{id%d}{var_dec%d}{id}", terminais[4]++, nao_terminais[7]);
+            token = proximo_token();
+            fprintf(arq,"\treenode{termo_var_dec%d}{var_dec%d}{termo_var_dec}", nao_terminais[8]++, nao_terminais[7]);
+            if(termo_var_dec()) {
+                if(token->categoria == tk_semicolon) {
+		    fprintf(arq,"\treenode{semicolon%d}{var_dec%d}{;}", terminais[14]++, nao_terminais[7]++);
+                    token = proximo_token();
+                    return 1;
+                }
+                 puts("ERRO FALTA ;");
+                 exit(EXIT_FAILURE);
+            }
+            exit(EXIT_FAILURE);
+        }
+        exit(EXIT_FAILURE);
+    }
+    exit(EXIT_FAILURE);
 }
 
 
@@ -315,25 +302,24 @@ int termo_var_dec()
 {
     if(token != NULL){
         if(token->categoria == tk_open_bra) {
-            fprintf(arq,"\\treenode{%dopenbra}{%dtermovardec}{\\[}\n", terminais[12]++, nao_terminais[8]);
+	    fprintf(arq,"\treenode{open_bra%d}{termo_var_dec%d}{[}", terminais[12]++, nao_terminais[8]);
             token = proximo_token();
             if(token->categoria == tk_const_int) {
-                fprintf(arq,"\\treenode{%dconstint}{%dtermovardec}{cte int}\n", terminais[30]++, nao_terminais[8]);
+		fprintf(arq,"\treenode{const_int%d}{termo_var_dec%d}{cte_int}", terminais[30]++, nao_terminais[8]);
                 token = proximo_token();
                 if(token->categoria == tk_close_bra) {
-                    fprintf(arq,"\\treenode{%dclose_bra}{%dtermovardec}{\\]}\n", terminais[13]++, nao_terminais[8]);
-                    nao_terminais[8]++;
+		    fprintf(arq,"\treenode{close_bra%d}{termo_var_dec%d}{]}", terminais[13]++, nao_terminais[8]++);
                     return 1;
-                }
-                return 0;
+		}
+                exit(EXIT_FAILURE);
             }
-            return 0;
+            exit(EXIT_FAILURE);
         }
-        fprintf(arq,"\\treenode{%dvazio}{%dtermovardec}{vazio}\n", terminais[29]++, nao_terminais[8]);
-        nao_terminais[8]++;
-        return 1;
+        fprintf(arq,"\treenode{vazio%d}{termo_var_dec%d}{vazio}", terminais[29]++, nao_terminais[8]++);
+	return 1;
     }
-    return 0;
+    exit(EXIT_FAILURE);
+
 }
 
 
@@ -341,14 +327,13 @@ int type() {
 
     if(token != NULL){
         if(token->categoria == tk_kw_int || token->categoria == tk_kw_float || token->categoria == tk_kw_char) {
-            fprintf(arq,"\\treenode{%dtipo}{%dtype}{%s}\n", terminais[32]++, nao_terminais[9], token->valor);
+	    fprintf(arq,"\treenode{tipo%d}{type%d}{%s}", terminais[32]++, nao_terminais[9]++, token->valor);
             token = proximo_token();
-            nao_terminais[9]++;
             return 1;
         }
-        return 0;
+	exit(EXIT_FAILURE);
     }
-    return 0;
+    exit(EXIT_FAILURE);
 }
 
 int cond() {

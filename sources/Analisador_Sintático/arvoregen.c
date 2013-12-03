@@ -1,27 +1,23 @@
 #include"arvoregen.h"
+#include<stdio.h>
+#include<stdlib.h>
 
-struct arvgen {
-char* info;
-struct arvgen *prim;
-struct arvgen *prox;
-};
-
-ArvGen* cria(char* c)
+ArvGen* cria(char *c)
 {
-    ArvGen *a  = (ArvGen *) malloc(sizeof(ArvGen));
+    ArvGen *a  = (ArvGen*)malloc(sizeof(ArvGen));
     a->info = c;
     a->prim = NULL;
     a->prox = NULL;
     return a;
 }
 
-void insere (ArvGen* pai, ArvGen* filho)
+void insere(ArvGen* pai, ArvGen* filho)
 {
     filho->prox = pai->prim;
     pai->prim = filho;
 }
 
-void imprime (ArvGen* a)
+/*void imprime (ArvGen* a)
 {
 
 
@@ -34,7 +30,7 @@ void imprime (ArvGen* a)
 
     }
 
-}
+}*/
 
 
 

@@ -11,17 +11,12 @@ size_t numero_bytes=100;
 int bytes_lidos=0, linha1=0, coluna1=0, i=0, j=0, primeiro=0, comentario = 0, coluna2 = 0;
 char *linha_do_arquivo;
 
-
-// Enumeracao das Categorias.
-
-
 // Funcao utilizada para imprimir token
 
 void imprimir_token(Token *token){
 
 	if(token != NULL)
-    printf("[Categoria: %d Valor: %s Linha: %d Coluna: %d]\n",
-(int)token->categoria, token->valor, token->linha, token->coluna);
+    printf("[Categoria: %d Valor: %s Linha: %d Coluna: %d]\n", token->categoria, token->valor, token->linha, token->coluna);
 }
 
 //Vetor de ponteiro para funcoes

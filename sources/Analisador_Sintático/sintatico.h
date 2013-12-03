@@ -1,7 +1,7 @@
 #ifndef SINTATICO_H_INCLUDED
 #define SINTATICO_H_INCLUDED
 
-void analisadorSintatico();
+void analisador_sintatico();
 int corpo();
 int programa();
 int termo_program();
@@ -30,7 +30,11 @@ int fator_arit();
 int list_func();
 int list_param();
 int param();
-
-
+int ch_func();
+int entrada();
+int saida();
+int concatenar();
+void inicio_tex();
+void fim_tex();
 
 #endif // SINTATICO_H_INCLUDED
