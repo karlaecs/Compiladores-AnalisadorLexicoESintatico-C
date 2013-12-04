@@ -1,40 +1,41 @@
 #ifndef SINTATICO_H_INCLUDED
 #define SINTATICO_H_INCLUDED
 
+#include "arvoregen.h"
+#include "../Analisador_Léxico/AnalisadorLexico.h"
+
+
 void analisador_sintatico();
-int corpo();
+int corpo(ArvoreGen *pai);
 int programa();
-int termo_program();
-int cmd();
-int var_dec();
-int termo_var_dec();
-int type();
-int cond();
-int termo_cond();
-int fator_cond();
-int iter();
-int atrib();
-int exp();
-int exp_bool();
-int A();
-int termo_bool();
-int B();
-int fator_bool();
-int exp_rel();
-int C();
-int exp_arit();
-int D();
-int termo_arit();
-int E();
-int fator_arit();
-int list_func();
-int list_param();
-int param();
-int ch_func();
-int entrada();
-int saida();
-int concatenar();
-void inicio_tex();
-void fim_tex();
+int termo_program(ArvoreGen *pai);
+int cmd(ArvoreGen *pai);
+int var_dec(ArvoreGen *pai);
+int termo_var_dec(ArvoreGen *pai);
+int type(ArvoreGen *pai);
+int cond(ArvoreGen *pai);
+int termo_cond(ArvoreGen *pai);
+int fator_cond(ArvoreGen *pai);
+int iter(ArvoreGen *pai);
+int atrib(ArvoreGen *pai);
+int exp(ArvoreGen *pai);
+int exp_bool(ArvoreGen *pai);
+int A(ArvoreGen *pai);
+int termo_bool(ArvoreGen *pai);
+int B(ArvoreGen *pai);
+int fator_bool(ArvoreGen *pai);
+int exp_rel(ArvoreGen *pai);
+int C(ArvoreGen *pai);
+int exp_arit(ArvoreGen *pai);
+int D(ArvoreGen *pai);
+int termo_arit(ArvoreGen *pai);
+int E(ArvoreGen *pai);
+int fator_arit(ArvoreGen *pai);
+int list_func(ArvoreGen *pai);
+int list_param(ArvoreGen *pai);
+int param(ArvoreGen *pai);
+int retorno(ArvoreGen *pai);
+int ch_func(ArvoreGen *pai);
+int confirmar_tk(Categoria c, ArvoreGen *pai);
 
 #endif // SINTATICO_H_INCLUDED

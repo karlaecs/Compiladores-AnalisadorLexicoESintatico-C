@@ -2,13 +2,13 @@
 #define ARVOREGEN_H_INCLUDED
 
 struct arvgen {
-char* info;
+char *info;
 struct arvgen *prim;
 struct arvgen *prox;
 };
-typedef struct arvgen ArvGen;
-ArvGen* cria (char *c);
-void insere (ArvGen* pai, ArvGen* filho);
+typedef struct arvgen ArvoreGen;
+ArvoreGen* criar (char *c);
+void inserir (ArvoreGen* pai, ArvoreGen* filho);
 //void imprime (ArvGen* a);
 
 #endif // ARVOREGEN_H_INCLUDED

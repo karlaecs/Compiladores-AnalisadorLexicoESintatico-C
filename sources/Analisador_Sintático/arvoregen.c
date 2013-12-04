@@ -2,35 +2,36 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-ArvGen* cria(char *c)
+ArvoreGen* criar(char *c)
 {
-    ArvGen *a  = (ArvGen*)malloc(sizeof(ArvGen));
+    ArvoreGen *a  = (ArvoreGen*)malloc(sizeof(ArvoreGen));
     a->info = c;
     a->prim = NULL;
     a->prox = NULL;
     return a;
 }
 
-void insere(ArvGen* pai, ArvGen* filho)
+void inserir(ArvoreGen* filho, ArvoreGen* pai)
 {
     filho->prox = pai->prim;
     pai->prim = filho;
 }
 
-/*void imprime (ArvGen* a)
+void imprime (ArvoreGen* a)
 {
 
 
     if(a != NULL) {
-        ArvGen* p = a;
+        ArvoreGen* p = a;
+		imprime(p->prox);
         printf("%s\t",p->info);
-        imprime(p->prox);
         printf("\n");
         imprime(p->prim);
 
     }
 
-}*/
+}
+
 
 
 
