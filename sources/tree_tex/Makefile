@@ -58,7 +58,7 @@ shar:
 
 test: treetex
 	${LATEX} arvore.tex
-	./treetex arvore
+	./treetex arvore 
 	${LATEX} test1.tex
 	./treetex testtreea
 	./treetex testtreeb

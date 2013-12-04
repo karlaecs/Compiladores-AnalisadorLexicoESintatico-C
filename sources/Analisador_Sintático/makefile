@@ -1,5 +1,5 @@
-all: lexico
-lexico: main.o AnalisadorLexico.o sintatico.o arvoregen.o
+all: sintatico
+sintatico: main.o AnalisadorLexico.o sintatico.o arvoregen.o
 	gcc -o sintatico obj/main.o obj/AnalisadorLexico.o obj/sintatico.o obj/arvoregen.o
 main.o: main.c
 	gcc -o obj/main.o -c main.c
@@ -9,3 +9,6 @@ sintatico.o: sintatico.c sintatico.h
 	gcc -o obj/sintatico.o -c sintatico.c 
 arvoregen.o: arvoregen.c arvoregen.h
 	gcc -o obj/arvoregen.o -c arvoregen.c
+
+test: sintatico
+	./sintatico ../Analisador_Léxico/programa_na_linguagem_karla.k > arvore.out

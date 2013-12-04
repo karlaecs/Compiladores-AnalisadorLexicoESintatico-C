@@ -23,10 +23,10 @@ void imprime (ArvoreGen* a)
 
     if(a != NULL) {
         ArvoreGen* p = a;
-		imprime(p->prox);
         printf("%s\t",p->info);
-        printf("\n");
-        imprime(p->prim);
+		imprime(p->prox);
+		printf("\n");
+		imprime(p->prim);
 
     }
 

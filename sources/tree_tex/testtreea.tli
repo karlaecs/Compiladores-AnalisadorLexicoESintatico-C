@@ -1,0 +1,13 @@
+\setlength{\unitlength}{1.00pt}
+\begin{picture}(136,44)(-66,-44)
+ \thicklines
+  \put(-21,-16){\shownode{\root}}
+  \put(0,-16){\line(0,-1){5}}
+  \put(-36,-21){\line(1,0){73}}
+  \put(-36,-21){\line(0,-1){5}}
+  \put(-66,-32){\shownode{\nodeA}}
+  \put(37,-21){\line(0,-1){5}}
+  \put(4,-33){\shownode{\nodeB}}
+  \put(37,-34){\line(0,-1){10}}
+  \put(37,-44){\shownode{\nodeC}}
+\end{picture}
