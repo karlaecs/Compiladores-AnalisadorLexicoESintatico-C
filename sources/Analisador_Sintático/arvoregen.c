@@ -8,6 +8,7 @@ ArvoreGen* criar(char *c)
     a->info = c;
     a->prim = NULL;
     a->prox = NULL;
+    a->pai_nome = NULL;
     return a;
 }
 
@@ -23,9 +24,9 @@ void imprime (ArvoreGen* a)
 
     if(a != NULL) {
         ArvoreGen* p = a;
-        printf("%s\t",p->info);
 		imprime(p->prox);
-		printf("\n");
+		// pai e filho
+		printf("%s %s\n",p->pai_nome, p->info);
 		imprime(p->prim);
 
     }

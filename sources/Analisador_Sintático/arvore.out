@@ -1,17 +1,17 @@
-Programa	
-corpo	main	termo\_programa	
-vazio	
-
-
-}	cmd	{	
-
-cmd	var\_dec	
-;	termo\_var\_dec	ida	type	
-int	
-
-
-vazio	
-
-
-vazio	
-
+(null) Programa
+Programa termo\_programa
+termo\_programa vazio
+Programa main
+Programa corpo
+corpo {
+corpo cmd
+cmd var\_dec
+var\_dec type
+type int
+var\_dec ida
+var\_dec termo\_var\_dec
+termo\_var\_dec vazio
+var\_dec ;
+cmd cmd
+cmd vazio
+corpo }

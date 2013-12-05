@@ -3,6 +3,7 @@
 
 struct arvgen {
 char *info;
+char *pai_nome;
 struct arvgen *prim;
 struct arvgen *prox;
 };
