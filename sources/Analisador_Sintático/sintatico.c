@@ -4,13 +4,16 @@
 #include "sintatico.h"
 
 
-#define INTMAX 35
+#define TAM 35
 
 
 Token *token;
 FILE *arq;
 ArvoreGen *inicial;
-char str[]= "id";
+char str_id[]= "id", buffer[10];
+char nao_terminais[TAM];
+int terminais[TAM];
+
 /*
 A chamada para a principal função, a partir dela uma variavel global token que é auxiliar, será alocada e ficará
 recebendo os tokens analisados pelo Lexico,eles serão atualizados conforme o sintatico for solicitando.
@@ -30,6 +33,8 @@ void analisador_sintatico() {
     }
     token = (Token*) malloc(sizeof(Token));
     token = proximo_token();
+    memset(nao_terminais, 0, sizeof(nao_terminais));
+    memset(terminais, 0, sizeof(terminais));
     programa();
     imprime(inicial);
     fclose(arq);
@@ -39,7 +44,7 @@ int confirmar_tk(Categoria c, ArvoreGen *pai) {
 	if(c == token->categoria) {
 		ArvoreGen *no;
 		if(c== tk_id)
-			no = criar(strcat(str, token->valor));
+			no = criar(strcat(str_id, token->valor));
 		else
 			no = criar(token->valor);
 		inserir(no, pai);
@@ -51,7 +56,13 @@ int confirmar_tk(Categoria c, ArvoreGen *pai) {
 }
 
 int corpo(ArvoreGen *pai) {
+   /* char str[] = "corpo";
+	ArvoreGen *no = criar(str
+    cat(str, nao_terminais[0]));
+	nao_terminais[0]++;*/
 	ArvoreGen *no = criar("corpo");
+    sprintf(buffer,"%d",nao_terminais[0]);
+    strcat(no->info, buffer);
 	inserir(no, pai);
 	no->pai_nome = pai->info;
 	if(confirmar_tk(tk_open_key, no) && cmd(no) && confirmar_tk(tk_close_key, no))
@@ -62,7 +73,7 @@ int corpo(ArvoreGen *pai) {
 }
 
 int programa() {
-	inicial = criar("Programa");
+	inicial = criar("root");
 	if(termo_program(inicial) && confirmar_tk(tk_kw_main, inicial) && corpo(inicial))
 		return 1;
 	return 0;
@@ -125,7 +136,12 @@ int type(ArvoreGen *pai) {
 
 int cmd(ArvoreGen *pai) {
 	//puts("cmd");
+    /*char str[] = "cmd";
+	ArvoreGen *no = criar(strcat(str, nao_terminais[6]));
+	nao_terminais[6]++;*/
 	ArvoreGen *no = criar("cmd");
+    sprintf(buffer,"%d",nao_terminais[6]);
+    strcat(no->info, buffer);
 	inserir(no, pai);
 	no->pai_nome = pai->info;
 	if((var_dec(no) && cmd(no)) || (cond(no) && cmd(no)) || (iter(no) && cmd(no)) || (atrib(no) && cmd(no)) || (ch_func(no) && cmd(no)) )
